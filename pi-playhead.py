@@ -80,6 +80,7 @@ def osc_client():
             time.sleep(resolution)
         else:
             update_screen("NOQLAB")
+            time.sleep(resolution)
 
 def osc_server():
     from pythonosc import osc_server
@@ -90,6 +91,8 @@ def osc_server():
     dispatcher.map("/settings/blank", blank_screen)
     server = osc_server.ThreadingOSCUDPServer((RASPBERRY_PI_IP, 53001), dispatcher)
     server.serve_forever()
+
+tm.brightness(3)
 
 update_screen("      ")
 time.sleep(1)

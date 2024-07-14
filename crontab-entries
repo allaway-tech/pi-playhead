@@ -1,0 +1,2 @@
+# @reboot sleep 30 && /home/pi/Documents/pi-playhead/pi-playhead.py >/tmp/mycommand.log 2>&1
+@reboot sleep 30 && /home/pi/Documents/pi-playhead/pi-playhead.py
