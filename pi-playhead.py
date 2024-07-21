@@ -11,16 +11,19 @@ from pythonosc import osc_server
 from pythonosc.dispatcher import Dispatcher
 from threading import Thread
 
+
+VERSION_NUMBER = "v0.1.14"
+
 DIO = 4
 CLK = 5
 QLAB_IP = "192.168.123.2"
-RASPBERRY_PI_IP = "192.168.123.1" #"192.168.0.236"
+RASPBERRY_PI_IP = "192.168.123.1" 
 
 blank_string="      "
 blank = False
+
 tm = TM1637Decimal(CLK, DIO, 1)
 resolution = 0.25
-
 
 def update_screen(message):
     input_length = 0
@@ -28,19 +31,12 @@ def update_screen(message):
     if blank:
         message = blank_string
     else:
-#if "." not in message:
-#            no_decimal = "--"
-#        else:
-#            no_decimal = ""
         if type(message) is int:
             message = str(message)
     input_length = len("".join(e for e in message if e.isalnum()))
     if input_length > 6:
         input_length = 6
-#        print(message[0:5])
         message = message[0:6]
-#    tm.show(blank_string[input_length:] + message)
-#    tm.write(swap(tm.encode_string(blank_string[input_length:] + message + no_decimal)))
     tm.write(swap(tm.encode_string(blank_string[input_length:] + message)))
 
 def swap(segs):
@@ -55,7 +51,6 @@ def swap(segs):
 def make_message(address, *args):
     data = json.loads(args[0])
     update_screen(data['data'])
-#    update_screen("123456")
 
 def set_brightness(address, *args):
     val=args[0]
@@ -94,11 +89,11 @@ def osc_server():
 
 tm.brightness(3)
 
-update_screen("      ")
+update_screen(blank_string)
 time.sleep(1)
 update_screen("Loadin")
 time.sleep(2)
-update_screen("v0.1.13")
+update_screen(VERSION_NUMBER)
 time.sleep(2)
 
 Thread(target=osc_client).start()
